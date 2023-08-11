@@ -2,7 +2,7 @@ import discord
 from discord.ext.commands import Bot as commands
 import random
 
-token = 'MTA5NjEzODkzNzU4MTQzNzAyOA.GhhnGn.6A073c3ibWC8bBj5oa2nKQ4fZ02yGlAJk9KP-c'
+token = '' #Insira o seu token aqui.
 
 Prefix = '!'
 intents = discord.Intents.all()
