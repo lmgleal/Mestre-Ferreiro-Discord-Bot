@@ -2,7 +2,7 @@ import discord
 from discord.ext.commands import Bot as commands
 import random
 
-token = '' #Insira o seu token aqui.
+token = '' #Insira o Token do seu Bot aqui.
 
 Prefix = '.'
 intents = discord.Intents.all()
@@ -193,6 +193,8 @@ async def refino(ctx, itens=0):
 
 @client.command()
 async def ping(ctx):
+    message = client.TextChannel()
+    print(f'O usuário {ctx.author} utilizou o comando .ping.')
     user_id = ctx.message.author.id
     user = await client.fetch_user(user_id)
     await ctx.message.delete()
@@ -205,6 +207,7 @@ async def refinocomum(ctx, itens=0):
     user_id = ctx.message.author.id
     user = await client.fetch_user(user_id)
     await ctx.message.delete()
+
     if itens > 0 and itens < 11:
         msg = f'Olá, {ctx.author.mention}!\nIniciando o refino com Elunium Comum em {itens} itens:'
         await user.send(msg)
@@ -345,11 +348,37 @@ async def refinocomum(ctx, itens=0):
 
     else:
         msg = f'{ctx.author.mention}, não foi possível iniciar sua simulação!'
-        msg2 = 'Adicione a quantidade de itens que deseja refinar depois do comando. Exemplo para refinar 4 itens: .refinocomum 3'
+        msg2 = 'Adicione a quantidade de itens que deseja refinar depois do comando. Exemplo para refinar 4 itens: .refinocomum 4'
         msg3 = '\nOBS: Só suporto simular 10 itens por vez!'
         embederro = discord.Embed(title='*ERRO!*', url='https://www2.worldrag.com/', description=f'{msg}\n{msg2}\n{msg3}')
         await user.send(embed=embederro)
 
     print(f'O refino para o usuário {ctx.author} foi encerrado.')
+
+@client.command()
+async def orient(ctx):
+    msg = f'Olá, quebrador de itens!\nO parâmetro (x) deve ser substituído pela quantidade de itens que você deseja simular o refino.\n'
+    msg2 = f'Exemplo: Para refinar 5 itens com Elunium Enriquecido e Elunium Perfeito, devo mandar o seguinte comando: .refino 5\n'
+    msg3 = f'Da mesma forma, para refinar 3 itens, mas desta vez utilizando apenas Elunium Comum, devo mandar o seguinte comando: .refinocomum \n'
+    lucassi = 234780367398240267
+    msg4 = f'Caso tenham alguma dúvida, sintam-se livres para contatar @{await client.fetch_user(lucassi)} via DM ou in-game!'
+    embedorient = discord.Embed(title='*Orientações adicionais*', url='https://www2.worldrag.com/', description=f'{msg}{msg2}{msg3}{msg4}')
+    await ctx.message.delete()
+    await ctx.send(embed=embedorient)
+
+@client.event
+async def on_message(message):
+    msg_content = message.content.lower().strip().strip('.')
+    curseWord = ['refinox', 'refinocomumx', 'refino x', 'refinocomum x', '.refino x', '.refinocomum x']
+    if any(word in msg_content for word in curseWord):
+        await message.delete()
+    else:
+        await client.process_commands(message)
+
+@client.command(pass_context = True)
+async def clear(ctx, number):
+    x = int(number)
+    await ctx.channel.purge(limit=x)
+    print(f'O usuário {ctx.author} utilizou o comando .clear para {x} mensagens.')
 
 client.run(token)
