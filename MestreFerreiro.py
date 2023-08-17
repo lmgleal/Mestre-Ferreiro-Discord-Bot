@@ -367,11 +367,13 @@ async def orient(ctx):
 
 @client.event
 async def on_message(message):
+    user_id = message.author.id
+    user = await client.fetch_user(user_id)
     msg_content = message.content.lower().strip().strip('.')
     curseWord = ['refinox', 'refinocomumx', 'refino x', 'refinocomum x', '.refino x', '.refinocomum x']
     if any(word in msg_content for word in curseWord):
         await message.delete()
-        msg = f'{ctx.author.mention}, não foi possível iniciar sua simulação!'
+        msg = f'{message.author.mention}, não foi possível iniciar sua simulação!'
         msg2 = 'Adicione a quantidade de itens que deseja refinar depois do comando. Exemplo para refinar 4 itens: .refinocomum 4'
         msg3 = '\nOBS: Só suporto simular 10 itens por vez!'
         embederro = discord.Embed(title='*ERRO!*', url='https://www2.worldrag.com/', description=f'{msg}\n{msg2}\n{msg3}')
